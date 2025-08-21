@@ -2,12 +2,11 @@ import Pagination from "@/components/Pagination"
 import Table from "@/components/Table"
 import TableSearch from "@/components/TableSearch"
 import Image from "next/image"
-import FormModal from "@/components/FormModal"
 import { Prisma, Subject, Teacher } from "@prisma/client"
 import prisma from "@/lib/prisma"
 import { ITEM_PER_PAGE } from "@/lib/settings"
-import { role } from "@/lib/utils"
 import { auth } from "@clerk/nextjs/server"
+import FormContainer from "@/components/FormContainer"
 
 
 type SubjectList = Subject & {teachers:Teacher[]};
@@ -52,8 +51,8 @@ const SubjectListPage = async ({
         <div className="flex items-center gap-2">
           {role === "admin" && (
             <>
-              <FormModal table="subject" type="update" data={item}/>
-              <FormModal table="subject" type="delete" id={item.id}/>
+              <FormContainer table="subject" type="update" data={item}/>
+              <FormContainer table="subject" type="delete" id={item.id}/>
             </>
           )}
         </div>
@@ -110,7 +109,7 @@ const SubjectListPage = async ({
               <Image src="/sort.png" alt="" width={14} height={14}/>
             </button>
             {role === "admin" && 
-                <FormModal table="subject" type="create"/>
+                <FormContainer table="subject" type="create"/>
             }
           </div>
         </div>

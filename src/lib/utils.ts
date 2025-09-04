@@ -1,17 +1,16 @@
 import { auth } from "@clerk/nextjs/server";
 
-
-const { userId, sessionClaims } = await auth()
-export const role = (sessionClaims?.metadata as {role?:string})?.role;
-export const currentUserId = userId; 
+// const { userId, sessionClaims } = await auth();
+// export const role = (sessionClaims?.metadata as { role?: string })?.role;
+// export const currentUserId = userId;
 
 const currentWorkWeek = () => {
   const today = new Date();
   const dayOfWeek = today.getDay();
-    //   const daysSinceMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
-    //   const latestMonday = today;
-    //   latestMonday.setDate(today.getDate() - daysSinceMonday);
-    //   return latestMonday;
+  //   const daysSinceMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+  //   const latestMonday = today;
+  //   latestMonday.setDate(today.getDate() - daysSinceMonday);
+  //   return latestMonday;
   const startOfWeek = new Date(today);
 
   if (dayOfWeek === 0) {
@@ -31,11 +30,9 @@ const currentWorkWeek = () => {
 export const adjustScheduleToCurrentWeek = (
   lessons: { title: string; start: Date; end: Date }[]
 ): { title: string; start: Date; end: Date }[] => {
+  const startOfWeek = currentWorkWeek();
 
-    const startOfWeek = currentWorkWeek();
-
-    
-    //   const latestMonday = getLatestMonday();
+  //   const latestMonday = getLatestMonday();
 
   return lessons.map((lesson) => {
     const lessonDayOfWeek = lesson.start.getDay();
@@ -46,9 +43,9 @@ export const adjustScheduleToCurrentWeek = (
 
     adjustedStartDate.setDate(startOfWeek.getDate() + daysFromMonday);
     adjustedStartDate.setHours(
-        lesson.start.getHours(),
-        lesson.start.getMinutes(),
-        lesson.start.getSeconds()
+      lesson.start.getHours(),
+      lesson.start.getMinutes(),
+      lesson.start.getSeconds()
     );
     const adjustedEndDate = new Date(adjustedStartDate);
     adjustedEndDate.setHours(

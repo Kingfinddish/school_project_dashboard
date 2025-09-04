@@ -1,6 +1,12 @@
 "use client";
 
-import { deleteSubject } from "@/lib/actions";
+import {
+  deleteClass,
+  deleteExam,
+  deleteStudent,
+  deleteSubject,
+  deleteTeacher,
+} from "@/lib/actions";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -8,15 +14,16 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { toast } from "react-toastify";
 import { FormContainerProps } from "./FormContainer";
+
 // import TeacherForm from "./forms/TeacherForm";
 // import StudentForm from "./forms/StudentForm";
 
 const deleteActionMap = {
   subject: deleteSubject,
-  class: deleteSubject,
-  teacher: deleteSubject,
-  student: deleteSubject,
-  exam: deleteSubject,
+  class: deleteClass,
+  teacher: deleteTeacher,
+  student: deleteStudent,
+  exam: deleteExam,
   parent: deleteSubject,
   lesson: deleteSubject,
   assignment: deleteSubject,
@@ -29,48 +36,47 @@ const deleteActionMap = {
 const TeacherForm = dynamic(() => import("./forms/TeacherForm"), {
   loading: () => <h1>Loading...</h1>,
 });
-
 const StudentForm = dynamic(() => import("./forms/StudentForm"), {
   loading: () => <h1>Loading...</h1>,
 });
-
 const SubjectForm = dynamic(() => import("./forms/SubjectForm"), {
   loading: () => <h1>Loading...</h1>,
 });
 const ClassForm = dynamic(() => import("./forms/ClassForm"), {
   loading: () => <h1>Loading...</h1>,
 });
+
 const ExamForm = dynamic(() => import("./forms/ExamForm"), {
   loading: () => <h1>Loading...</h1>,
 });
 
-const ResultForm = dynamic(() => import("./forms/ResultForm"), {
-  loading: () => <h1>Loading...</h1>,
-});
+// const ResultForm = dynamic(() => import("./forms/ResultForm"), {
+//   loading: () => <h1>Loading...</h1>,
+// });
 
-const ParentForm = dynamic(() => import("./forms/ParentForm"), {
-  loading: () => <h1>Loading...</h1>,
-});
+// const ParentForm = dynamic(() => import("./forms/ParentForm"), {
+//   loading: () => <h1>Loading...</h1>,
+// });
 
-const LessonForm = dynamic(() => import("./forms/LessonForm"), {
-  loading: () => <h1>Loading...</h1>,
-});
+// const LessonForm = dynamic(() => import("./forms/LessonForm"), {
+//   loading: () => <h1>Loading...</h1>,
+// });
 
-const EventForm = dynamic(() => import("./forms/EventForm"), {
-  loading: () => <h1>Loading...</h1>,
-});
+// const EventForm = dynamic(() => import("./forms/EventForm"), {
+//   loading: () => <h1>Loading...</h1>,
+// });
 
-const AttendanceForm = dynamic(() => import("./forms/AttendanceForm"), {
-  loading: () => <h1>Loading...</h1>,
-});
+// const AttendanceForm = dynamic(() => import("./forms/AttendanceForm"), {
+//   loading: () => <h1>Loading...</h1>,
+// });
 
-const AnnouncementForm = dynamic(() => import("./forms/AnnouncementForm"), {
-  loading: () => <h1>Loading...</h1>,
-});
+// const AnnouncementForm = dynamic(() => import("./forms/AnnouncementForm"), {
+//   loading: () => <h1>Loading...</h1>,
+// });
 
-const AssignmentForm = dynamic(() => import("./forms/AssignmentForm"), {
-  loading: () => <h1>Loading...</h1>,
-});
+// const AssignmentForm = dynamic(() => import("./forms/AssignmentForm"), {
+//   loading: () => <h1>Loading...</h1>,
+// });
 
 const forms: {
   [key: string]: (
@@ -88,7 +94,15 @@ const forms: {
       relatedData={relatedData}
     />
   ),
-  teacher: (type, data, setOpen) => (
+  class: (setOpen, type, data, relatedData) => (
+    <ClassForm
+      type={type}
+      data={data}
+      setOpen={setOpen}
+      relatedData={relatedData}
+    />
+  ),
+  teacher: (setOpen, type, data, relatedData) => (
     <TeacherForm
       type={type}
       data={data}
@@ -96,7 +110,7 @@ const forms: {
       relatedData={relatedData}
     />
   ),
-  student: (type, data, setOpen) => (
+  student: (setOpen, type, data, relatedData) => (
     <StudentForm
       type={type}
       data={data}
@@ -104,10 +118,17 @@ const forms: {
       relatedData={relatedData}
     />
   ),
+  exam: (setOpen, type, data, relatedData) => (
+    <ExamForm
+      type={type}
+      data={data}
+      setOpen={setOpen}
+      relatedData={relatedData}
+    />
+  ),
+
   // parent: (type, data, setOpen) => <ParentForm type={type} data={data} setOpen={setOpen}/>,
-  // class: (type, data, setOpen) => <ClassForm type={type} data={data} setOpen={setOpen}/>,
   // lesson: (type, data, setOpen) => <LessonForm type={type} data={data} setOpen={setOpen}/>,
-  // exam: (type, data, setOpen) => <ExamForm type={type} data={data} setOpen={setOpen}/>,
   // assignment: (type, data, setOpen) => <AssignmentForm type={type} data={data} setOpen={setOpen}/>,
   // result: (type, data, setOpen) => <ResultForm type={type} data={data} setOpen={setOpen}/>,
   // attendance: (type, data, setOpen) => <AttendanceForm type={type} data={data} setOpen={setOpen}/>,

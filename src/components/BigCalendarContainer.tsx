@@ -23,11 +23,13 @@ const BigCalendarContainer = async ({
     end: lesson.endTime,
   }));
 
-  const schedule = adjustScheduleToCurrentWeek(data)
+  const schedule = adjustScheduleToCurrentWeek(data);
 
   return (
-    <div className=''><BigCalendar data={schedule}/></div>
-  )
-}
+    <div className="">
+      <BigCalendar data={schedule} />
+    </div>
+  );
+};
 
-export default BigCalendarContainer
+export default BigCalendarContainer;

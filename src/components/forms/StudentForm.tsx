@@ -1,11 +1,16 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Resolver, useForm } from "react-hook-form";
 import InputField from "../InputField";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { studentSchema, StudentSchema } from "@/lib/formValidationSchemas";
+import {
+  studentSchema,
+  StudentSchema,
+  teacherSchema,
+  TeacherSchema,
+} from "@/lib/formValidationSchemas";
 import { useFormState } from "react-dom";
 import {
   createStudent,
@@ -33,7 +38,7 @@ const StudentForm = ({
     handleSubmit,
     formState: { errors },
   } = useForm<StudentSchema>({
-    resolver: zodResolver(studentSchema),
+    resolver: zodResolver(studentSchema) as Resolver<StudentSchema>,
   });
 
   const [img, setImg] = useState<any>();
@@ -47,6 +52,7 @@ const StudentForm = ({
   );
 
   const onSubmit = handleSubmit((data) => {
+    console.log("hello");
     console.log(data);
     formAction({ ...data, img: img?.secure_url });
   });
@@ -59,7 +65,7 @@ const StudentForm = ({
       setOpen(false);
       router.refresh();
     }
-  }, [state]);
+  }, [state, router, type, setOpen]);
 
   const { grades, classes } = relatedData;
 
@@ -112,7 +118,7 @@ const StudentForm = ({
               onClick={() => open()}
             >
               <Image src="/upload.png" alt="" width={28} height={28} />
-              <span>Upload a Photo</span>
+              <span>Upload a photo</span>
             </div>
           );
         }}
@@ -170,7 +176,7 @@ const StudentForm = ({
         />
         {data && (
           <InputField
-            label="id"
+            label="Id"
             name="id"
             defaultValue={data?.id}
             register={register}
@@ -242,11 +248,10 @@ const StudentForm = ({
           )}
         </div>
       </div>
-
       {state.error && (
-        <span className="text-red-500">Something went wrong</span>
+        <span className="text-red-500">Something went wrong!</span>
       )}
-      <button className="bg-blue-400 text-white p-2 rounded-md">
+      <button type="submit" className="bg-blue-400 text-white p-2 rounded-md">
         {type === "create" ? "Create" : "Update"}
       </button>
     </form>

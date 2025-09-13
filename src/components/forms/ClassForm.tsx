@@ -1,10 +1,20 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, Resolver } from "react-hook-form";
 import InputField from "../InputField";
-import { classSchema, ClassSchema } from "@/lib/formValidationSchemas";
-import { createClass, updateClass } from "@/lib/actions";
+import {
+  classSchema,
+  ClassSchema,
+  subjectSchema,
+  SubjectSchema,
+} from "@/lib/formValidationSchemas";
+import {
+  createClass,
+  createSubject,
+  updateClass,
+  updateSubject,
+} from "@/lib/actions";
 import { useFormState } from "react-dom";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { toast } from "react-toastify";
@@ -26,13 +36,13 @@ const ClassForm = ({
     handleSubmit,
     formState: { errors },
   } = useForm<ClassSchema>({
-    resolver: zodResolver(classSchema),
+    resolver: zodResolver(classSchema) as Resolver<ClassSchema>,
   });
 
   // AFTER REACT 19 IT'LL BE USEACTIONSTATE
 
   const [state, formAction] = useFormState(
-    type === "create" ? createClass : updateClass, //deze condition gaf error, hiervoor werkte updaten gewoon bij mij (bij de man niet)
+    type === "create" ? createClass : updateClass,
     {
       success: false,
       error: false,
@@ -52,7 +62,7 @@ const ClassForm = ({
       setOpen(false);
       router.refresh();
     }
-  }, [state]);
+  }, [state, router, type, setOpen]);
 
   const { teachers, grades } = relatedData;
 
@@ -79,7 +89,7 @@ const ClassForm = ({
         />
         {data && (
           <InputField
-            label="id"
+            label="Id"
             name="id"
             defaultValue={data?.id}
             register={register}
@@ -105,8 +115,6 @@ const ClassForm = ({
                 </option>
               )
             )}
-
-            <option value="female">Female</option>
           </select>
           {errors.supervisorId?.message && (
             <p className="text-xs text-red-400">
@@ -139,7 +147,7 @@ const ClassForm = ({
         </div>
       </div>
       {state.error && (
-        <span className="text-red-500">Something went wrong</span>
+        <span className="text-red-500">Something went wrong!</span>
       )}
       <button className="bg-blue-400 text-white p-2 rounded-md">
         {type === "create" ? "Create" : "Update"}
@@ -149,4 +157,3 @@ const ClassForm = ({
 };
 
 export default ClassForm;
-ClassForm;

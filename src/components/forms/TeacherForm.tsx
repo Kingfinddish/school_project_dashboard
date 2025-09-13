@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Resolver, useForm } from "react-hook-form";
 import InputField from "../InputField";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -28,7 +28,7 @@ const TeacherForm = ({
     handleSubmit,
     formState: { errors },
   } = useForm<TeacherSchema>({
-    resolver: zodResolver(teacherSchema),
+    resolver: zodResolver(teacherSchema) as Resolver<TeacherSchema>,
   });
 
   const [img, setImg] = useState<any>();
@@ -54,7 +54,7 @@ const TeacherForm = ({
       setOpen(false);
       router.refresh();
     }
-  }, [state]);
+  }, [state, router, type, setOpen]);
 
   const { subjects } = relatedData;
 
@@ -139,7 +139,7 @@ const TeacherForm = ({
         />
         {data && (
           <InputField
-            label="id"
+            label="Id"
             name="id"
             defaultValue={data?.id}
             register={register}
@@ -197,15 +197,14 @@ const TeacherForm = ({
                 onClick={() => open()}
               >
                 <Image src="/upload.png" alt="" width={28} height={28} />
-                <span>Upload a Photo</span>
+                <span>Upload a photo</span>
               </div>
             );
           }}
         </CldUploadWidget>
       </div>
-
       {state.error && (
-        <span className="text-red-500">Something went wrong</span>
+        <span className="text-red-500">Something went wrong!</span>
       )}
       <button className="bg-blue-400 text-white p-2 rounded-md">
         {type === "create" ? "Create" : "Update"}

@@ -1,10 +1,20 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Resolver, useForm } from "react-hook-form";
 import InputField from "../InputField";
-import { examSchema, ExamSchema } from "@/lib/formValidationSchemas";
-import { createExam, updateExam } from "@/lib/actions";
+import {
+  examSchema,
+  ExamSchema,
+  subjectSchema,
+  SubjectSchema,
+} from "@/lib/formValidationSchemas";
+import {
+  createExam,
+  createSubject,
+  updateExam,
+  updateSubject,
+} from "@/lib/actions";
 import { useFormState } from "react-dom";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { toast } from "react-toastify";
@@ -26,13 +36,13 @@ const ExamForm = ({
     handleSubmit,
     formState: { errors },
   } = useForm<ExamSchema>({
-    resolver: zodResolver(examSchema),
+    resolver: zodResolver(examSchema) as Resolver<ExamSchema>,
   });
 
   // AFTER REACT 19 IT'LL BE USEACTIONSTATE
 
   const [state, formAction] = useFormState(
-    type === "create" ? createExam : updateExam, //deze condition gaf error, hiervoor werkte updaten gewoon bij mij (bij de man niet)
+    type === "create" ? createExam : updateExam,
     {
       success: false,
       error: false,
@@ -52,7 +62,7 @@ const ExamForm = ({
       setOpen(false);
       router.refresh();
     }
-  }, [state]);
+  }, [state, router, type, setOpen]);
 
   const { lessons } = relatedData;
 

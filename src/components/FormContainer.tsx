@@ -60,7 +60,6 @@ const FormContainer = async ({ table, type, data, id }: FormContainerProps) => {
         });
         relatedData = { classes: studentClasses, grades: studentGrades };
         break;
-
       case "exam":
         const examLessons = await prisma.lesson.findMany({
           where: {

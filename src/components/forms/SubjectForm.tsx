@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Resolver, useForm } from "react-hook-form";
 import InputField from "../InputField";
 import { subjectSchema, SubjectSchema } from "@/lib/formValidationSchemas";
 import { createSubject, updateSubject } from "@/lib/actions";
@@ -26,13 +26,13 @@ const SubjectForm = ({
     handleSubmit,
     formState: { errors },
   } = useForm<SubjectSchema>({
-    resolver: zodResolver(subjectSchema),
+    resolver: zodResolver(subjectSchema) as Resolver<SubjectSchema>,
   });
 
   // AFTER REACT 19 IT'LL BE USEACTIONSTATE
 
   const [state, formAction] = useFormState(
-    type === "create" ? createSubject : updateSubject, //deze condition gaf error, hiervoor werkte updaten gewoon bij mij (bij de man niet)
+    type === "create" ? createSubject : updateSubject,
     {
       success: false,
       error: false,
@@ -52,7 +52,7 @@ const SubjectForm = ({
       setOpen(false);
       router.refresh();
     }
-  }, [state]);
+  }, [state, router, type, setOpen]);
 
   const { teachers } = relatedData;
 
@@ -72,7 +72,7 @@ const SubjectForm = ({
         />
         {data && (
           <InputField
-            label="id"
+            label="Id"
             name="id"
             defaultValue={data?.id}
             register={register}
@@ -95,8 +95,6 @@ const SubjectForm = ({
                 </option>
               )
             )}
-
-            <option value="female">Female</option>
           </select>
           {errors.teachers?.message && (
             <p className="text-xs text-red-400">
@@ -106,7 +104,7 @@ const SubjectForm = ({
         </div>
       </div>
       {state.error && (
-        <span className="text-red-500">Something went wrong</span>
+        <span className="text-red-500">Something went wrong!</span>
       )}
       <button className="bg-blue-400 text-white p-2 rounded-md">
         {type === "create" ? "Create" : "Update"}

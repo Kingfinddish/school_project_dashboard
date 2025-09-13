@@ -15,15 +15,13 @@ import { useFormState } from "react-dom";
 import { toast } from "react-toastify";
 import { FormContainerProps } from "./FormContainer";
 
-// import TeacherForm from "./forms/TeacherForm";
-// import StudentForm from "./forms/StudentForm";
-
 const deleteActionMap = {
   subject: deleteSubject,
   class: deleteClass,
   teacher: deleteTeacher,
   student: deleteStudent,
   exam: deleteExam,
+  // TODO: OTHER DELETE ACTIONS
   parent: deleteSubject,
   lesson: deleteSubject,
   assignment: deleteSubject,
@@ -32,6 +30,11 @@ const deleteActionMap = {
   event: deleteSubject,
   announcement: deleteSubject,
 };
+
+// USE LAZY LOADING
+
+// import TeacherForm from "./forms/TeacherForm";
+// import StudentForm from "./forms/StudentForm";
 
 const TeacherForm = dynamic(() => import("./forms/TeacherForm"), {
   loading: () => <h1>Loading...</h1>,
@@ -45,38 +48,10 @@ const SubjectForm = dynamic(() => import("./forms/SubjectForm"), {
 const ClassForm = dynamic(() => import("./forms/ClassForm"), {
   loading: () => <h1>Loading...</h1>,
 });
-
 const ExamForm = dynamic(() => import("./forms/ExamForm"), {
   loading: () => <h1>Loading...</h1>,
 });
-
-// const ResultForm = dynamic(() => import("./forms/ResultForm"), {
-//   loading: () => <h1>Loading...</h1>,
-// });
-
-// const ParentForm = dynamic(() => import("./forms/ParentForm"), {
-//   loading: () => <h1>Loading...</h1>,
-// });
-
-// const LessonForm = dynamic(() => import("./forms/LessonForm"), {
-//   loading: () => <h1>Loading...</h1>,
-// });
-
-// const EventForm = dynamic(() => import("./forms/EventForm"), {
-//   loading: () => <h1>Loading...</h1>,
-// });
-
-// const AttendanceForm = dynamic(() => import("./forms/AttendanceForm"), {
-//   loading: () => <h1>Loading...</h1>,
-// });
-
-// const AnnouncementForm = dynamic(() => import("./forms/AnnouncementForm"), {
-//   loading: () => <h1>Loading...</h1>,
-// });
-
-// const AssignmentForm = dynamic(() => import("./forms/AssignmentForm"), {
-//   loading: () => <h1>Loading...</h1>,
-// });
+// TODO: OTHER FORMS
 
 const forms: {
   [key: string]: (
@@ -125,15 +100,8 @@ const forms: {
       setOpen={setOpen}
       relatedData={relatedData}
     />
+    // TODO OTHER LIST ITEMS
   ),
-
-  // parent: (type, data, setOpen) => <ParentForm type={type} data={data} setOpen={setOpen}/>,
-  // lesson: (type, data, setOpen) => <LessonForm type={type} data={data} setOpen={setOpen}/>,
-  // assignment: (type, data, setOpen) => <AssignmentForm type={type} data={data} setOpen={setOpen}/>,
-  // result: (type, data, setOpen) => <ResultForm type={type} data={data} setOpen={setOpen}/>,
-  // attendance: (type, data, setOpen) => <AttendanceForm type={type} data={data} setOpen={setOpen}/>,
-  // event: (type, data, setOpen) => <EventForm type={type} data={data} setOpen={setOpen}/>,
-  // announcement: (type, data, setOpen) => <AnnouncementForm type={type} data={data} setOpen={setOpen}/>,
 };
 
 const FormModal = ({

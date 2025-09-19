@@ -15,8 +15,10 @@ COPY . .
 
 # Generate Database
 # RUN npx prisma migrate dev --name init
-# remove the above code because it caused error. instead run it like this and in vps terminal execute afterward: docker compose exec app npx prisma migrate dev --name init
+# remove the above code because it caused error and added the one below. instead run it like this and in vps terminal execute afterward: docker compose exec app npx prisma migrate dev --name init
 
+# Generate Prisma client (safe to run during build)
+RUN npx prisma generate
 
 # Build the Next.js application
 RUN npm run build
